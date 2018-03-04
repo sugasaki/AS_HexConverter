@@ -2,7 +2,7 @@
 
 */
 
-
+#include <stdio.h>
 #include <Arduino.h>
 #include "AS_HexConverter.h"
 
@@ -12,22 +12,50 @@
 //
 
 /* static */
-String AS_HexConverter::FloatToHex(float value)
+char *AS_HexConverter::FloatToHex(float value)
+{
+  char buff[10] = { 0 };
+  sprintf(buff, "%08lx", *((uint32_t*)&value));
+  return buff;
+}
+
+
+
+/* static */
+String AS_HexConverter::FloatToHexString(float value)
+{
+  char buff[10] = { 0 };
+  sprintf(buff, "%08lx", *((uint32_t*)&value));
+  return (String)buff;
+}
+
+
+/* static */
+// for ESP32 only
+String AS_HexConverter::DoubleToHexString(double value)
 {
   char buff[20] = { 0 };
-  sprintf(buff, "%08lx", *((uint32_t*)&value));
-//  sprintf(buff, "%08x", *((uint32_t*)&value));
-  
+  sprintf(buff, "%16llx", value);
   return (String)buff;
 }
 
 
 
 /* static */
-float AS_HexConverter::HexToFloat(String value)
+float AS_HexConverter::HexStringToFloat(String value)
 {
   float result = 0;
   sscanf(value.c_str(), "%08lx", &result);
+  return result;
+}
+
+
+/* static */
+// for ESP32 only
+double AS_HexConverter::HexStringToDouble(String value)
+{
+  double result = 0;
+  sscanf(value.c_str(), "%llx", &result);
   return result;
 }
 
@@ -59,7 +87,7 @@ float AS_HexConverter::HexToFloat_old(String value)
 
 String StringToHex(String value){
   byte byteBuf;
-  value.getBytes(byteBuf, value.length());  // byteBuf is ABCD
+//  value.getBytes(byteBuf, value.length());  // byteBuf is ABCD
 }
 
 

@@ -11,10 +11,13 @@ class AS_HexConverter
 {
 public:
 
-  static String FloatToHex(float value); 
+  static char *FloatToHex(float value); 
 
-  static float HexToFloat(String value);
+  static String FloatToHexString(float value); 
+  static String DoubleToHexString(double value); 
 
+  static float HexStringToFloat(String value);
+  static double HexStringToDouble(String value);
   
 private:
   static float HexToFloat_old(String value);
